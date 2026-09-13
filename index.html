@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بوابة بيانات الأستاذ | DONIA LABS TECH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --obsidian:#0c0b12;
+    --surface:#15131e;
+    --surface-2:#1c1a28;
+    --line:#2a2738;
+    --violet:#8a6cff;
+    --violet-dim:#4d3f8c;
+    --gold:#c9a86a;
+    --turquoise:#2dd4c8;
+    --ink:#ece9f4;
+    --muted:#9793ab;
+    --danger:#e2666b;
+    --radius:14px;
+    --glow-1: rgba(138,108,255,0.16);
+    --glow-2: rgba(45,212,200,0.10);
+    --shadow: 0 10px 30px rgba(0,0,0,0.35);
+  }
+  html[data-theme="light"]{
+    --obsidian:#f3f1fa;
+    --surface:#ffffff;
+    --surface-2:#f4f2fb;
+    --line:#e3e0f0;
+    --violet:#7c5cff;
+    --violet-dim:#c9beff;
+    --gold:#a97f2e;
+    --turquoise:#0f9c92;
+    --ink:#221f30;
+    --muted:#716c85;
+    --danger:#c4434b;
+    --glow-1: rgba(124,92,255,0.10);
+    --glow-2: rgba(15,156,146,0.08);
+    --shadow: 0 10px 26px rgba(80,70,120,0.10);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 85% -10%, var(--glow-1), transparent 45%),
+      radial-gradient(circle at -10% 110%, var(--glow-2), transparent 40%),
+      var(--obsidian);
+    color:var(--ink);
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    min-height:100vh;
+    line-height:1.6;
+    transition:background-color .25s ease, color .25s ease;
+  }
+  .group,.letterhead,.receipt,.login-box,table.admin-table,input,select,textarea,.security-note{
+    transition:background-color .25s ease, border-color .25s ease, color .25s ease, box-shadow .25s ease;
+  }
+  .group,.letterhead,.receipt,.login-box{ box-shadow: var(--shadow); }
+  .wrap{max-width:660px;margin:0 auto;padding:36px 20px 80px;}
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;}
+  .brand{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;letter-spacing:.02em;}
+  .dots{display:grid;grid-template-columns:repeat(2,5px);grid-auto-rows:5px;gap:4px;transform:rotate(-20deg);}
+  .dots span{width:5px;height:5px;border-radius:50%;background:var(--gold);}
+  .dots span:nth-child(1){background:var(--violet);}
+  .dots span:nth-child(4){background:var(--turquoise);}
+
+  h1{font-family:'Reem Kufi', sans-serif;font-weight:700;font-size:clamp(24px,5vw,32px);margin:6px 0 8px;color:var(--ink);}
+  .lede{color:var(--muted);font-size:15px;max-width:46ch;}
+
+  .hero-row{display:flex;align-items:center;gap:14px;}
+  .hero-icon{
+    flex:none;width:52px;height:52px;border-radius:14px;
+    background:linear-gradient(145deg, rgba(138,108,255,0.18), rgba(45,212,200,0.12));
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .hero-icon svg{width:28px;height:28px;}
+
+  .theme-toggle{
+    flex:none;
+    width:40px;height:40px;
+    border-radius:50%;
+    background:var(--surface);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+  }
+  .theme-toggle svg{width:18px;height:18px;}
+  .theme-toggle .icon-sun{display:none;}
+  html[data-theme="light"] .theme-toggle .icon-moon{display:none;}
+  html[data-theme="light"] .theme-toggle .icon-sun{display:block;}
+
+  /* ---- letterhead ---- */
+  .letterhead{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:var(--surface);
+    padding:18px 20px;
+    margin-bottom:24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .letterhead .seal{
+    width:56px;height:56px;
+    border-radius:50%;
+    border:1px dashed var(--line);
+    flex:none;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+    color:var(--muted);
+    font-size:10px;
+    text-align:center;
+  }
+  .letterhead .seal img{width:100%;height:100%;object-fit:contain;}
+  .letterhead .text{flex:1;text-align:center;}
+  .letterhead .text .r1{font-size:13px;color:var(--gold);font-weight:600;}
+  .letterhead .text .r2{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .letterhead .text .r3{font-size:14px;color:var(--ink);font-weight:600;margin-top:6px;}
+  .letterhead .text .r4{font-size:12px;color:var(--muted);margin-top:2px;}
+
+  form{margin-top:8px;}
+  .group{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px;margin-bottom:18px;}
+  .group h2{font-family:'Reem Kufi', sans-serif;font-size:18px;font-weight:500;margin:0 0 4px;color:var(--gold);}
+  .group p.hint{margin:0 0 18px;color:var(--muted);font-size:13px;}
+
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:520px){.row{grid-template-columns:1fr;}}
+
+  .field{margin-bottom:16px;}
+  .field:last-child{margin-bottom:0;}
+  .field label{display:block;font-size:13.5px;color:var(--ink);margin-bottom:7px;font-weight:500;}
+  .field label .opt{color:var(--muted);font-weight:400;font-size:12px;}
+  input,select,textarea{
+    width:100%;background:var(--surface-2);border:1px solid var(--line);color:var(--ink);
+    border-radius:9px;padding:11px 13px;font-size:14.5px;font-family:inherit;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  textarea{resize:vertical;min-height:70px;}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px rgba(138,108,255,0.18);}
+  ::placeholder{color:#5f5b74;}
+  select{
+    appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%239793AB' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:left 13px center;padding-left:32px;
+  }
+  .field .field-error{display:none;color:var(--danger);font-size:12px;margin-top:5px;}
+  .field.invalid input,.field.invalid select{border-color:var(--danger);}
+  .field.invalid .field-error{display:block;}
+
+  .submit-bar{display:flex;align-items:center;gap:14px;margin-top:6px;flex-wrap:wrap;}
+  button.primary{
+    background:linear-gradient(135deg, var(--violet), #6f52e0);color:#fff;border:none;border-radius:10px;
+    padding:14px 26px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;
+    box-shadow:0 8px 24px rgba(138,108,255,0.28);transition:transform .12s, box-shadow .12s;
+  }
+  button.primary:hover{transform:translateY(-1px);box-shadow:0 10px 28px rgba(138,108,255,0.36);}
+  button.primary:disabled{opacity:.6;cursor:progress;transform:none;}
+  .status-msg{font-size:13.5px;color:var(--muted);}
+  .status-msg.err{color:var(--danger);}
+  .status-msg.ok{color:var(--turquoise);}
+  .required-mark{color:var(--danger);margin-inline-start:2px;}
+
+  .success-screen{padding:20px 4px;}
+  .success-screen .badge{width:56px;height:56px;border-radius:50%;background:rgba(45,212,200,0.12);border:1px solid rgba(45,212,200,0.4);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;}
+  .success-screen h2{font-family:'Reem Kufi', sans-serif;font-size:22px;margin:0 0 8px;text-align:center;}
+  .success-screen>p.sub{color:var(--muted);max-width:40ch;margin:0 auto 22px;text-align:center;}
+
+  /* ---- receipt card (بطاقة الاستعلام) ---- */
+  .receipt{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;margin-bottom:20px;
+  }
+  .receipt .rh{text-align:center;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:14px;}
+  .receipt .rh .r1{font-size:13px;color:var(--gold);font-weight:600;}
+  .receipt .rh .r2{font-size:12.5px;color:var(--muted);}
+  .receipt .rh .r3{font-size:14px;font-weight:600;margin-top:6px;}
+  .receipt .rh .r4{font-size:12px;color:var(--muted);}
+  .receipt .title{text-align:center;font-family:'Reem Kufi',sans-serif;font-size:17px;margin:6px 0 16px;color:var(--turquoise);}
+  .receipt dl{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin:0;}
+  .receipt dt{font-size:11.5px;color:var(--muted);}
+  .receipt dd{margin:2px 0 0;font-size:13.5px;}
+  .receipt .rf{display:flex;justify-content:space-between;margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);}
+
+  .action-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .btn-ghost{background:var(--surface);border:1px solid var(--line);color:var(--ink);padding:11px 18px;border-radius:9px;cursor:pointer;font-family:inherit;font-size:13.5px;}
+  .btn-ghost:hover{border-color:var(--violet);}
+
+  footer.foot{margin-top:40px;text-align:center;color:var(--muted);font-size:12px;}
+
+  /* --- Admin panel (hash: #admin) --- */
+  #admin-panel{display:none;}
+  body.admin-mode .wrap > *:not(#admin-panel){display:none;}
+  body.admin-mode #admin-panel{display:block;}
+
+  .login-box{max-width:340px;margin:60px auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;}
+  .login-box h2{font-family:'Reem Kufi',sans-serif;font-size:19px;margin:0 0 4px;text-align:center;}
+  .login-box p{color:var(--muted);font-size:12.5px;text-align:center;margin:0 0 20px;}
+  .login-box .field{margin-bottom:14px;}
+  .login-box button{width:100%;margin-top:6px;}
+
+  .admin-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+  .admin-toolbar h1{font-size:22px;margin:0;}
+  .admin-toolbar .actions{display:flex;gap:10px;flex-wrap:wrap;}
+  table.admin-table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  table.admin-table th,table.admin-table td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;}
+  table.admin-table th{color:var(--gold);font-weight:600;background:var(--surface-2);}
+  .admin-empty{color:var(--muted);text-align:center;padding:50px 0;}
+  .table-scroll{overflow-x:auto;}
+  .security-note{font-size:11.5px;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:16px;}
+
+  @media print{
+    body{background:#fff;color:#000;}
+    .wrap{max-width:none;}
+    header.top,footer.foot,#teacherForm,.action-row,.brand{display:none !important;}
+    .receipt{border:1px solid #000;box-shadow:none;}
+    .receipt dt,.receipt .rh .r2,.receipt .rh .r4,.receipt .rf{color:#333;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="hero-row">
+      <div class="hero-icon" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="17" r="8" stroke="var(--violet)" stroke-width="2.4"/>
+          <path d="M10 40c0-8.5 6.7-14.5 14-14.5S38 31.5 38 40" stroke="var(--turquoise)" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M14 12.5L24 8l10 4.5-10 4.5-10-4.5z" fill="var(--gold)" fill-opacity="0.85"/>
+          <path d="M14 12.5v5.5" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand"><span class="dots"><span></span><span></span><span></span><span></span></span> DONIA LABS TECH</div>
+        <h1>بوابة بيانات الأستاذ</h1>
+        <p class="lede">استمارة إلكترونية لتحيين الملف الإداري والمهني للأستاذ عن بُعد.</p>
+      </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="تبديل الوضع الليلي/النهاري">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" stroke="var(--ink)" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.5" stroke="var(--ink)" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="var(--ink)" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+
+  <div class="letterhead" id="letterhead">
+    <div class="seal" id="sealBox">الختم</div>
+    <div class="text">
+      <div class="r1" id="lhRepublic">…</div>
+      <div class="r2" id="lhMinistry">…</div>
+      <div class="r3" id="lhInstitution">…</div>
+      <div class="r4" id="lhDirectorateYear">…</div>
+    </div>
+  </div>
+
+  <form id="teacherForm" novalidate>
+
+    <div class="group">
+      <h2>الحالة المدنية</h2>
+      <p class="hint">المعلومات الشخصية للأستاذ(ة)</p>
+
+      <div class="row">
+        <div class="field"><label for="lastName">اللقب<span class="required-mark">*</span></label>
+          <input type="text" id="lastName" name="lastName" required placeholder="مثال: بن علي">
+          <div class="field-error">هذا الحقل إلزامي</div></div>
+        <div class="field"><label for="firstName">الاسم<span class="required-mark">*</span></label>
+          <input type="text" id="firstName" name="firstName" required placeholder="مثال: محمد">
+          <div class="field-error">هذا الحقل إلزامي</div></div>
+      </div>
+
+      <div class="row">
+        <div class="field"><label for="dob">تاريخ الميلاد<span class="required-mark">*</span></label>
+          <input type="date" id="dob" name="dob" required>
+          <div class="field-error">هذا الحقل إلزامي</div></div>
+        <div class="field"><label for="pob">مكان الميلاد<span class="required-mark">*</span></label>
+          <input type="text" id="pob" name="pob" required placeholder="البلدية / الولاية">
+          <div class="field-error">هذا الحقل إلزامي</div></div>
+      </div>
+
+      <div class="row">
+        <div class="field"><label for="maritalStatus">الحالة العائلية<span class="required-mark">*</span></label>
+          <select id="maritalStatus" name="maritalStatus" required>
+            <option value="" disabled selected>اختر...</option>
+            <option value="أعزب/عزباء">أعزب / عزباء</option>
+            <option value="متزوج(ة)">متزوج(ة)</option>
+            <option value="مطلق(ة)">مطلق(ة)</option>
+            <option value="أرمل(ة)">أرمل(ة)</option>
+          </select>
+          <div class="field-error">هذا الحقل إلزامي</div></div>
+        <div class="field"><label for="childrenCount">عدد الأولاد <span class="opt">(اترك 0 إذا لا يوجد)</span></label>
+          <input type="number" id="childrenCount" name="childrenCount" min="0" step="1" value="0"></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>معلومات الاتصال</h2>
+      <p class="hint">لتمكين الإدارة من التواصل معكم عند الحاجة</p>
+      <div class="row">
+        <div class="field"><label for="email">البريد الإلكتروني<span class="required-mark">*</span></label>
+          <input type="email" id="email" name="email" required placeholder="example@mail.com">
+          <div class="field-error">أدخل بريدًا إلكترونيًا صحيحًا</div></div>
+        <div class="field"><label for="phone">رقم الهاتف<span class="required-mark">*</span></label>
+          <input type="tel" id="phone" name="phone" required pattern="0[5-7][0-9]{8}" placeholder="0555 XX XX XX">
+          <div class="field-error">أدخل رقم هاتف جزائري صحيح (10 أرقام)</div></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>المسار المهني</h2>
+      <p class="hint">التوظيف، الرتبة، والنقاط الإدارية والتربوية</p>
+
+      <div class="row">
+        <div class="field"><label for="firstEmploymentYear">سنة أول توظيف<span class="required-mark">*</span></label>
+          <input type="number" id="firstEmploymentYear" name="firstEmploymentYear" required min="1970" max="2026" placeholder="مثال: 2012">
+          <div class="field-error">هذا الحقل إلزامي</div></div>
+        <div class="field"><label for="currentGrade">الدرجة الحالية<span class="required-mark">*</span></label>
+          <input type="text" id="currentGrade" name="currentGrade" required placeholder="مثال: أستاذ تعليم متوسط - الدرجة 5">
+          <div class="field-error">هذا الحقل إلزامي</div></div>
+      </div>
+
+      <div class="row">
+        <div class="field"><label for="gradeEffectiveDate">تاريخ تنفيذ الدرجة الحالية</label>
+          <input type="date" id="gradeEffectiveDate" name="gradeEffectiveDate"></div>
+        <div class="field"><label for="subjectSpecialty">المادة والتخصص<span class="required-mark">*</span></label>
+          <input type="text" id="subjectSpecialty" name="subjectSpecialty" required placeholder="مثال: رياضيات">
+          <div class="field-error">هذا الحقل إلزامي</div></div>
+      </div>
+
+      <div class="row">
+        <div class="field"><label for="pedagogicalPoint">النقطة التربوية</label>
+          <input type="number" id="pedagogicalPoint" name="pedagogicalPoint" step="0.01" min="0" max="20" placeholder="مثال: 16.50"></div>
+        <div class="field"><label for="lastAdminPoint">النقطة الإدارية الأخيرة</label>
+          <input type="number" id="lastAdminPoint" name="lastAdminPoint" step="0.01" min="0" max="20" placeholder="مثال: 15.75"></div>
+      </div>
+
+      <div class="field"><label for="certificate">الشهادة المتحصل عليها<span class="required-mark">*</span></label>
+        <input type="text" id="certificate" name="certificate" required placeholder="مثال: ليسانس في الرياضيات">
+        <div class="field-error">هذا الحقل إلزامي</div></div>
+
+      <div class="row">
+        <div class="field"><label for="experienceYears">الخبرة المهنية (بالسنوات)</label>
+          <input type="number" id="experienceYears" name="experienceYears" min="0" step="1" placeholder="مثال: 8"></div>
+        <div class="field"><label for="experienceNote">تفاصيل إضافية عن الخبرة <span class="opt">(اختياري)</span></label>
+          <input type="text" id="experienceNote" name="experienceNote" placeholder="مؤسسات، مناصب سابقة..."></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>الوضعية الحالية</h2>
+      <p class="hint">صفة التعيين والمؤسسة</p>
+      <div class="row">
+        <div class="field"><label for="appointmentStatus">صفة التعيين الحالي<span class="required-mark">*</span></label>
+          <select id="appointmentStatus" name="appointmentStatus" required>
+            <option value="" disabled selected>اختر...</option>
+            <option value="رسمي(ة)">رسمي(ة)</option>
+            <option value="متربص(ة)">متربص(ة)</option>
+            <option value="مؤقت(ة)">مؤقت(ة)</option>
+            <option value="متعاقد(ة)">متعاقد(ة)</option>
+            <option value="أخرى">أخرى</option>
+          </select>
+          <div class="field-error">هذا الحقل إلزامي</div></div>
+        <div class="field"><label for="previousInstitution">المؤسسة السابقة</label>
+          <input type="text" id="previousInstitution" name="previousInstitution" placeholder="اسم المؤسسة (إن وجدت)"></div>
+      </div>
+    </div>
+
+    <div class="submit-bar">
+      <button type="submit" class="primary" id="submitBtn">إرسال البيانات</button>
+      <span class="status-msg" id="statusMsg"></span>
+    </div>
+  </form>
+
+  <div class="success-screen" id="successScreen" style="display:none;">
+    <div class="badge">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 6" stroke="#2dd4c8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h2>تم إرسال بياناتكم بنجاح</h2>
+    <p class="sub">فيما يلي بطاقة استعلام بالمعلومات التي أرسلتموها. يمكنكم طباعتها أو الاحتفاظ بها.</p>
+
+    <div class="receipt" id="receiptCard">
+      <div class="rh">
+        <div class="r1" id="rcRepublic">…</div>
+        <div class="r2" id="rcMinistry">…</div>
+        <div class="r3" id="rcInstitution">…</div>
+        <div class="r4" id="rcDirectorateYear">…</div>
+      </div>
+      <div class="title">بطاقة استعلام — بيانات الأستاذ</div>
+      <dl id="receiptFields"></dl>
+      <div class="rf">
+        <span id="rcDirector"></span>
+        <span id="rcDate"></span>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-ghost" onclick="window.print()">طباعة البطاقة</button>
+      <button class="btn-ghost" id="resetBtn">تعبئة استمارة جديدة</button>
+    </div>
+  </div>
+
+  <footer class="foot">DONIA LABS TECH — مختبر الأفكار الذكية</footer>
+
+  <!-- ================= ADMIN PANEL (open with #admin in the URL) ================= -->
+  <div id="admin-panel">
+    <div class="login-box" id="loginBox">
+      <h2>دخول المسؤول</h2>
+      <p>هذه المساحة مخصصة للإدارة فقط للاطلاع على الاستمارات المسجلة على هذا الجهاز.</p>
+      <div class="field"><label for="loginUser">اسم المستخدم</label><input type="text" id="loginUser" autocomplete="username"></div>
+      <div class="field"><label for="loginPass">كلمة المرور</label><input type="password" id="loginPass" autocomplete="current-password"></div>
+      <div class="status-msg err" id="loginError" style="margin-bottom:10px;"></div>
+      <button class="primary" id="loginBtn" style="width:100%;">دخول</button>
+    </div>
+
+    <div id="adminContent" style="display:none;">
+      <div class="security-note">
+        هذا العرض يفك تشفير النسخة المحفوظة محليًا على هذا المتصفح فقط. إن رُبطت البوابة بجدول Google Sheet، فهو المصدر الرسمي والأكثر أمانًا للبيانات — راجع صلاحيات مشاركته هناك.
+      </div>
+      <div class="admin-toolbar">
+        <h1>سجل الاستمارات المستلمة</h1>
+        <div class="actions">
+          <button class="btn-ghost" id="exportCsvBtn">تصدير CSV</button>
+          <button class="btn-ghost" id="clearDataBtn">مسح السجل</button>
+          <button class="btn-ghost" id="logoutBtn">تسجيل الخروج</button>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table class="admin-table" id="adminTable"><thead></thead><tbody></tbody></table>
+      </div>
+      <div class="admin-empty" id="adminEmpty" style="display:none;">لا توجد أي استمارات مسجلة بعد على هذا الجهاز/المتصفح.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* =========================================================================
+   الوضع الليلي / النهاري
+   ========================================================================= */
+const THEME_KEY = "teacherPortalTheme";
+function applyTheme(t){
+  document.documentElement.setAttribute("data-theme", t);
+  localStorage.setItem(THEME_KEY, t);
+}
+(function initTheme(){
+  const saved = localStorage.getItem(THEME_KEY);
+  if(saved){ applyTheme(saved); }
+  else{
+    const prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+    applyTheme(prefersLight ? "light" : "dark");
+  }
+})();
+document.getElementById("themeToggle").addEventListener("click", function(){
+  const current = document.documentElement.getAttribute("data-theme");
+  applyTheme(current === "light" ? "dark" : "light");
+});
+
+/* =========================================================================
+   الإعدادات — تُقرأ من settings.json (يقوم المسؤول بتعديله دون لمس هذا الملف)
+   ========================================================================= */
+const DEFAULT_SETTINGS = {
+  republic:"الجمهورية الجزائرية الديمقراطية الشعبية",
+  ministry:"وزارة التربية الوطنية",
+  directorate:"مديرية التربية",
+  institution:"اسم المؤسسة",
+  schoolYear:"",
+  directorName:"",
+  sealImageUrl:"",
+  adminUsername:"admin",
+  adminPasswordHash:"", // SHA-256 hex؛ اتركه فارغًا لتعطيل لوحة الإدارة
+  encryptionPassphrase:"donia-default-passphrase"
+};
+let SETTINGS = DEFAULT_SETTINGS;
+
+/* =========================================================================
+   الإرسال إلى خادم مركزي (اختياري) — Google Apps Script Web App
+   ========================================================================= */
+const GAS_WEBHOOK_URL = ""; // مثال: "https://script.google.com/macros/s/XXXXX/exec"
+
+const STORAGE_KEY = "teacherPortalSubmissions_v2";
+const FIELD_LABELS = {
+  lastName:"اللقب", firstName:"الاسم", dob:"تاريخ الميلاد", pob:"مكان الميلاد",
+  maritalStatus:"الحالة العائلية", childrenCount:"عدد الأولاد",
+  email:"البريد الإلكتروني", phone:"رقم الهاتف",
+  firstEmploymentYear:"سنة أول توظيف", currentGrade:"الدرجة الحالية",
+  gradeEffectiveDate:"تاريخ تنفيذ الدرجة", pedagogicalPoint:"النقطة التربوية",
+  lastAdminPoint:"النقطة الإدارية الأخيرة", subjectSpecialty:"المادة والتخصص",
+  certificate:"الشهادة المتحصل عليها", experienceYears:"الخبرة (سنوات)",
+  experienceNote:"تفاصيل الخبرة", appointmentStatus:"صفة التعيين الحالي",
+  previousInstitution:"المؤسسة السابقة", submittedAt:"تاريخ الإرسال"
+};
+const RECEIPT_FIELDS = ["lastName","firstName","dob","email","phone","currentGrade","subjectSpecialty","appointmentStatus"];
+
+/* ---------------- تحميل الإعدادات ---------------- */
+async function loadSettings(){
+  try{
+    const res = await fetch("settings.json", {cache:"no-store"});
+    if(res.ok){ SETTINGS = Object.assign({}, DEFAULT_SETTINGS, await res.json()); }
+  }catch(e){ /* استخدام القيم الافتراضية إن تعذّر الجلب (مثلاً عند الفتح محليًا) */ }
+  applyLetterhead();
+}
+
+function applyLetterhead(){
+  const yearTxt = SETTINGS.schoolYear ? `السنة الدراسية: ${SETTINGS.schoolYear}` : "";
+  document.getElementById("lhRepublic").textContent = SETTINGS.republic;
+  document.getElementById("lhMinistry").textContent = SETTINGS.ministry;
+  document.getElementById("lhInstitution").textContent = SETTINGS.institution;
+  document.getElementById("lhDirectorateYear").textContent = [SETTINGS.directorate, yearTxt].filter(Boolean).join(" — ");
+  if(SETTINGS.sealImageUrl){
+    document.getElementById("sealBox").innerHTML = `<img src="${SETTINGS.sealImageUrl}" alt="ختم المؤسسة">`;
+  }
+  document.getElementById("rcRepublic").textContent = SETTINGS.republic;
+  document.getElementById("rcMinistry").textContent = SETTINGS.ministry;
+  document.getElementById("rcInstitution").textContent = SETTINGS.institution;
+  document.getElementById("rcDirectorateYear").textContent = [SETTINGS.directorate, yearTxt].filter(Boolean).join(" — ");
+  document.getElementById("rcDirector").textContent = SETTINGS.directorName ? `المدير(ة): ${SETTINGS.directorName}` : "";
+}
+
+/* ---------------- تشفير محلي بسيط (AES-GCM) ----------------
+   ملاحظة أمنية: المفتاح مشتق من عبارة موجودة داخل settings.json التي
+   يمكن لأي شخص يفتح هذا الموقع رؤيتها. هذا التشفير يحمي فقط من قراءة
+   عرضية لتخزين المتصفح (localStorage)، وليس حماية حقيقية ضد شخص يفحص
+   كود الموقع. للحماية الفعلية، اعتمدوا على تخزين مركزي محمي (Google
+   Sheet بصلاحيات محدودة، أو قاعدة بيانات فعلية مثل Supabase). */
+async function getCryptoKey(){
+  const enc = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw", enc.encode(SETTINGS.encryptionPassphrase), "PBKDF2", false, ["deriveKey"]
+  );
+  return crypto.subtle.deriveKey(
+    { name:"PBKDF2", salt: enc.encode("donia-teacher-portal-salt"), iterations: 100000, hash:"SHA-256" },
+    keyMaterial, { name:"AES-GCM", length:256 }, false, ["encrypt","decrypt"]
+  );
+}
+function bufToB64(buf){ return btoa(String.fromCharCode(...new Uint8Array(buf))); }
+function b64ToBuf(b64){ return Uint8Array.from(atob(b64), c=>c.charCodeAt(0)); }
+
+async function encryptRecord(obj){
+  const key = await getCryptoKey();
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const enc = new TextEncoder().encode(JSON.stringify(obj));
+  const cipher = await crypto.subtle.encrypt({name:"AES-GCM", iv}, key, enc);
+  return { iv: bufToB64(iv), data: bufToB64(cipher) };
+}
+async function decryptRecord(rec){
+  const key = await getCryptoKey();
+  const iv = b64ToBuf(rec.iv);
+  const plain = await crypto.subtle.decrypt({name:"AES-GCM", iv}, key, b64ToBuf(rec.data));
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+
+function getRawSubmissions(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch(e){ return []; }
+}
+async function saveSubmission(record){
+  const enc = await encryptRecord(record);
+  const all = getRawSubmissions();
+  all.push(enc);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+}
+async function getAllDecrypted(){
+  const raw = getRawSubmissions();
+  const out = [];
+  for(const r of raw){ try{ out.push(await decryptRecord(r)); }catch(e){ /* تجاهل سجل تالف */ } }
+  return out;
+}
+
+/* ---------------- تحقق واجهة الإدخال ---------------- */
+function validateForm(form){
+  let ok = true;
+  form.querySelectorAll(".field").forEach(f=>{
+    const input = f.querySelector("input,select");
+    if(!input) return;
+    f.classList.remove("invalid");
+    if(!input.checkValidity()){ f.classList.add("invalid"); ok = false; }
+  });
+  return ok;
+}
+document.querySelectorAll("#teacherForm input, #teacherForm select").forEach(inp=>{
+  inp.addEventListener("input", ()=> inp.closest(".field")?.classList.remove("invalid"));
+});
+
+/* ---------------- إرسال الاستمارة ---------------- */
+const form = document.getElementById("teacherForm");
+const statusMsg = document.getElementById("statusMsg");
+const submitBtn = document.getElementById("submitBtn");
+const successScreen = document.getElementById("successScreen");
+
+form.addEventListener("submit", async function(e){
+  e.preventDefault();
+  if(!validateForm(form)){
+    statusMsg.textContent = "يرجى تصحيح الحقول المظللة أعلاه.";
+    statusMsg.className = "status-msg err";
+    return;
+  }
+
+  const data = Object.fromEntries(new FormData(form).entries());
+  data.submittedAt = new Date().toLocaleString("ar-DZ");
+
+  submitBtn.disabled = true;
+  statusMsg.textContent = "جارٍ الإرسال...";
+  statusMsg.className = "status-msg";
+
+  await saveSubmission(data);
+
+  if(GAS_WEBHOOK_URL){
+    try{
+      await fetch(GAS_WEBHOOK_URL, {
+        method:"POST", mode:"no-cors",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(data)
+      });
+    }catch(err){
+      statusMsg.textContent = "تعذّر الإرسال إلى الخادم، لكن تم حفظ نسخة محلية مشفّرة على هذا الجهاز.";
+      statusMsg.className = "status-msg err";
+    }
+  }
+
+  showSuccess(data);
+});
+
+function showSuccess(data){
+  form.style.display = "none";
+  successScreen.style.display = "block";
+  submitBtn.disabled = false;
+  statusMsg.textContent = "";
+
+  const dl = document.getElementById("receiptFields");
+  dl.innerHTML = "";
+  RECEIPT_FIELDS.forEach(k=>{
+    const dt = document.createElement("dt"); dt.textContent = FIELD_LABELS[k] || k;
+    const dd = document.createElement("dd"); dd.textContent = data[k] || "—";
+    dl.appendChild(dt); dl.appendChild(dd);
+  });
+  document.getElementById("rcDate").textContent = data.submittedAt;
+}
+
+document.getElementById("resetBtn").addEventListener("click", function(){
+  form.reset();
+  form.style.display = "block";
+  successScreen.style.display = "none";
+});
+
+/* ===================== لوحة الإدارة المحمية (#admin) ===================== */
+async function sha256Hex(str){
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+
+async function renderAdminTable(){
+  const rows = await getAllDecrypted();
+  const table = document.getElementById("adminTable");
+  const emptyMsg = document.getElementById("adminEmpty");
+  const thead = table.querySelector("thead"), tbody = table.querySelector("tbody");
+  thead.innerHTML = ""; tbody.innerHTML = "";
+
+  if(rows.length === 0){ table.style.display = "none"; emptyMsg.style.display = "block"; return; }
+  table.style.display = "table"; emptyMsg.style.display = "none";
+
+  const cols = Object.keys(FIELD_LABELS);
+  const trh = document.createElement("tr");
+  cols.forEach(c=>{ const th=document.createElement("th"); th.textContent=FIELD_LABELS[c]; trh.appendChild(th); });
+  thead.appendChild(trh);
+  rows.forEach(r=>{
+    const tr = document.createElement("tr");
+    cols.forEach(c=>{ const td=document.createElement("td"); td.textContent=r[c] ?? ""; tr.appendChild(td); });
+    tbody.appendChild(tr);
+  });
+}
+
+async function toCsv(){
+  const rows = await getAllDecrypted();
+  const cols = Object.keys(FIELD_LABELS);
+  const esc = v => `"${String(v ?? "").replace(/"/g,'""')}"`;
+  const lines = [cols.map(c=>esc(FIELD_LABELS[c])).join(",")];
+  rows.forEach(r=> lines.push(cols.map(c=>esc(r[c])).join(",")) );
+  return "\uFEFF" + lines.join("\n");
+}
+
+document.getElementById("exportCsvBtn").addEventListener("click", async function(){
+  const blob = new Blob([await toCsv()], {type:"text/csv;charset=utf-8;"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "استمارات_الاساتذة.csv"; a.click();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById("clearDataBtn").addEventListener("click", function(){
+  if(confirm("هل أنت متأكد من مسح كل السجلات المحفوظة على هذا الجهاز؟ لا يمكن التراجع.")){
+    localStorage.removeItem(STORAGE_KEY);
+    renderAdminTable();
+  }
+});
+
+document.getElementById("logoutBtn").addEventListener("click", function(){
+  sessionStorage.removeItem("adminAuthed");
+  document.getElementById("adminContent").style.display = "none";
+  document.getElementById("loginBox").style.display = "block";
+});
+
+document.getElementById("loginBtn").addEventListener("click", doLogin);
+document.getElementById("loginPass").addEventListener("keydown", e=>{ if(e.key==="Enter") doLogin(); });
+
+async function doLogin(){
+  const user = document.getElementById("loginUser").value.trim();
+  const pass = document.getElementById("loginPass").value;
+  const err = document.getElementById("loginError");
+  err.textContent = "";
+
+  if(!SETTINGS.adminPasswordHash){
+    err.textContent = "لوحة الإدارة غير مفعّلة: لم يُعيَّن adminPasswordHash في settings.json.";
+    return;
+  }
+  const hash = await sha256Hex(pass);
+  if(user === SETTINGS.adminUsername && hash === SETTINGS.adminPasswordHash){
+    sessionStorage.setItem("adminAuthed","1");
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("adminContent").style.display = "block";
+    renderAdminTable();
+  } else {
+    err.textContent = "اسم المستخدم أو كلمة المرور غير صحيحة.";
+  }
+}
+
+function checkAdminMode(){
+  if(window.location.hash === "#admin"){
+    document.body.classList.add("admin-mode");
+    if(sessionStorage.getItem("adminAuthed") === "1"){
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("adminContent").style.display = "block";
+      renderAdminTable();
+    } else {
+      document.getElementById("loginBox").style.display = "block";
+      document.getElementById("adminContent").style.display = "none";
+    }
+  } else {
+    document.body.classList.remove("admin-mode");
+  }
+}
+window.addEventListener("hashchange", checkAdminMode);
+
+loadSettings().then(checkAdminMode);
+</script>
+</body>
+</html>
